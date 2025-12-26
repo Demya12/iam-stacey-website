@@ -273,6 +273,20 @@ body{
   }
 }
 
+/* Makes the host page look boxed like index.html */
+.page-shell {
+  max-width: 1200px;
+  margin: 24px auto 40px;
+  background: #fff;
+
+  border: 3px solid #22c1c3; /* teal */
+  border-radius: 6px;
+
+  overflow: hidden; /* keeps teal/purple bands clipped inside the box */
+  box-shadow: 0 14px 35px rgba(0,0,0,.07);
+}
+
+
 
 
 
