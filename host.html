@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Host | The Stacey Thomas Show</title>
+
+  <link rel="stylesheet" href="host.css" />
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-top">The Stacey Thomas Show</div>
+        <div class="brand-logo">I am Stacey</div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="books.html">Books/Films</a>
+        <a href="shop.html">Shop</a>
+        <a href="contact.html">Contact</a>
+        <a class="active" href="host.html">Host</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-outline" href="signin.html">Sign In</a>
+        <a class="btn btn-solid" href="register.html">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>The Stacey Thomas Show</h1>
+      <p>
+        Welcome to the official page for The Stacey Thomas Show, a platform that
+        amplifies voices in advocacy, empowerment, and community change, where
+        you can watch full talk show episodes and exclusive interviews on YouTube.
+      </p>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="videos">
+    <div class="videos-inner">
+      <div class="videos-header">
+        <div>
+          <h2>Latest Episodes</h2>
+          <p>Automatically pulls from the YouTube channel.</p>
+        </div>
+
+        <a class="btn btn-outline" target="_blank"
+           href="https://www.youtube.com/@staceythomasshow/videos" rel="noreferrer">
+          View on YouTube
+        </a>
+      </div>
+
+      <div id="status" class="status" aria-live="polite"></div>
+
+      <div id="videoGrid" class="video-grid">
+        <!-- JS inserts video cards here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (simple version matching your layout) -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">I am Stacey</div>
+        <div class="social">
+          <a href="#" aria-label="X">X</a>
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="#" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Use cases</h4>
+          <a href="#">UI design</a>
+          <a href="#">UX design</a>
+          <a href="#">Wireframing</a>
+          <a href="#">Brainstorming</a>
+          <a href="#">Team collaboration</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="#">Design</a>
+          <a href="#">Prototyping</a>
+          <a href="#">Design systems</a>
+          <a href="#">FigJam</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="#">Blog</a>
+          <a href="#">Best practices</a>
+          <a href="#">Support</a>
+          <a href="#">Developers</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="host.js" defer></script>
+</body>
+</html>
+

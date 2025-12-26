@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stacey Thomas - Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Optional Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #22c1c3;
+      --purple: #c13ad6;
+      --dark: #222;
+      --light: #ffffff;
+      --gray: #f5f5f5;
+      --accent: #ff46c7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fdfdfd;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ---------- NAV (same as index) ---------- */
+
+    header {
+      border: 3px solid var(--teal);
+      border-bottom: none;
+      max-width: 1200px;
+      margin: 24px auto 0;
+      background: var(--light);
+      box-shadow: 0 14px 35px rgba(0,0,0,.07);
+      border-radius: 6px 6px 0 0;
+      overflow: hidden;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    .logo {
+      font-family: "Poppins", cursive;
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+
+    nav ul li a {
+      color: #666;
+    }
+
+    nav ul li a:hover {
+      color: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-outline {
+      border-color: var(--purple);
+      color: var(--purple);
+      background: transparent;
+    }
+
+    .btn-solid {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    /* ---------- CONTACT HERO ---------- */
+
+    .hero {
+      background: var(--teal);
+      text-align: center;
+      padding: 60px 30px 40px;
+    }
+
+    .hero h1 {
+      color: var(--accent);
+      font-size: 2.4rem;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .hero p.sub {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---------- CONTACT MAIN ---------- */
+
+    .contact-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-left: 3px solid var(--teal);
+      border-right: 3px solid var(--teal);
+      background: #fafafa;
+      padding: 40px 20px 60px;
+    }
+
+    .contact-inner {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 28px 24px 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+
+    .contact-inner h2 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      text-align: center;
+      color: var(--purple);
+    }
+
+    .contact-inner p.desc {
+      font-size: 0.9rem;
+      text-align: center;
+      color: #555;
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+      color: var(--purple);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .form-group textarea {
+      min-height: 110px;
+    }
+
+    .contact-inner button {
+      width: 100%;
+      background: #57c1d5;
+      border: none;
+      padding: 11px 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #fff;
+      margin-top: 4px;
+    }
+
+    .contact-inner button:hover {
+      opacity: 0.95;
+    }
+
+    /* ---------- FOOTER (same as index) ---------- */
+
+    footer {
+      border: 3px solid var(--teal);
+      border-top: none;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      border-radius: 0 0 6px 6px;
+      overflow: hidden;
+    }
+
+    .footer-inner {
+      background: #f7f7f7;
+      padding: 30px 40px 35px;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+      gap: 40px;
+      font-size: 0.85rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-brand .logo {
+      font-size: 1.2rem;
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .socials img.social-icon {
+      width: 25px;
+      height: 25px;
+      object-fit: contain;
+      transition: 0.2s ease;
+    }
+
+    .socials img.social-icon:hover {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+
+    .footer-column h4 {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      display: grid;
+      gap: 4px;
+    }
+
+    .footer-column a {
+      color: #666;
+      font-size: 0.82rem;
+    }
+
+    .footer-column a:hover {
+      color: var(--accent);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media (max-width: 900px) {
+      .top-nav {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px 18px;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      header {
+        margin-top: 10px;
+      }
+
+      .hero h1 {
+        font-size: 2.1rem;
+      }
+
+      .contact-main {
+        padding: 30px 14px 50px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER / NAV -->
+  <header>
+    <div class="top-nav">
+      <div class="logo">I am Stacey</div>
+
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Books/Films</a></li>
+          <li><a href="Shop/shop.html">Shop</a></li>
+          <li><a href="contactme.html">Contact</a></li>
+          <li><a href="#">Host</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#" class="btn btn-outline">Sign in</a>
+        <a href="#" class="btn btn-solid">Register</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Stacey Thomas</h1>
+      <p class="sub">LET'S CONNECT</p>
+    </section>
+  </header>
+
+  <!-- CONTACT CONTENT -->
+  <main class="contact-main">
+    <div class="contact-inner">
+      <h2>Get in Touch</h2>
+      <p class="desc">
+        Have a question, booking request, or want to collaborate?  
+        Send a message below and Stacey’s team will follow up with you.
+      </p>
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input id="name" type="text" placeholder="Enter your name" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" placeholder="Enter your email" />
+      </div>
+
+      <div class="form-group">
+        <label for="message">What would you like to discuss?</label>
+        <textarea id="message" placeholder="Type your message here"></textarea>
+      </div>
+
+      <button type="submit">Submit</button>
+    </div>
+  </main>
+
+  <!-- FOOTER (matching index) -->
+  <footer>
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <div class="logo">I am Stacey</div>
+        <p>Author • Talk Show Host • Advocate • Friend</p>
+
+        <div class="socials">
+          <a href="https://www.facebook.com/iamstaceythomas/" target="_blank" rel="noopener noreferrer">
+            <img src="facebook.png" alt="Facebook" class="social-icon">
+          </a>
+
+          <a href="https://www.instagram.com/iamstaceythomas/" target="_blank" rel="noopener noreferrer">
+            <img src="instagram.png" alt="Instagram" class="social-icon">
+          </a>
+
+          <a href="https://linktr.ee/staceyunrestricted" target="_blank" rel="noopener noreferrer">
+            <img src="linktree.png" alt="Linktree" class="social-icon">
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>About Stacey</h4>
+        <ul>
+          <li><a href="#author">Books &amp; Writing</a></li>
+          <li><a href="#advocate">Advocacy Work</a></li>
+          <li><a href="#host">Talk Show &amp; Media</a></li>
+          <li><a href="#about">Biography</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#events">Events &amp; Appearances</a></li>
+          <li><a href="#videos">Interviews &amp; Episodes</a></li>
+          <li><a href="#causes">Causes I Support</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#contact">Contact Me</a></li>
+          <li><a href="#newsletter">Join the Mailing List</a></li>
+          <li><a href="#press">Press &amp; Media</a></li>
+          <li><a href="#booking">Booking Requests</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

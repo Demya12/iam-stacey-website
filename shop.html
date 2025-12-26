@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>I am Stacey - Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --teal: #22c1c3;
+      --purple: #c13ad6;
+      --dark: #222;
+      --light: #ffffff;
+      --gray: #f5f5f5;
+      --accent: #ff46c7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fdfdfd;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ---------- NAV (same layout as index/contact) ---------- */
+
+    header {
+      border: 3px solid var(--teal);
+      border-bottom: none;
+      max-width: 1200px;
+      margin: 24px auto 0;
+      background: var(--light);
+      box-shadow: 0 14px 35px rgba(0,0,0,.07);
+      border-radius: 6px 6px 0 0;
+      overflow: hidden;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    .logo {
+      font-family: "Poppins", cursive;
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+
+    nav ul li a {
+      color: #666;
+    }
+
+    nav ul li a:hover {
+      color: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-outline {
+      border-color: var(--purple);
+      color: var(--purple);
+      background: transparent;
+    }
+
+    .btn-solid {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    /* ---------- HERO (Shop banner) ---------- */
+
+    .hero {
+      background: var(--teal);
+      text-align: center;
+      padding: 50px 30px 55px;
+    }
+
+    .hero h1 {
+      color: var(--accent);
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .hero p.sub {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---------- SHOP MAIN ---------- */
+
+    .shop-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-left: 3px solid var(--teal);
+      border-right: 3px solid var(--teal);
+      background: #fafafa;
+      padding: 40px 20px 60px;
+    }
+
+    .shop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .shop-header h2 {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+
+    .shop-header p {
+      font-size: 0.9rem;
+      color: #555;
+      max-width: 400px;
+    }
+
+    .search-box {
+      margin-left: auto;
+      position: relative;
+      min-width: 220px;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px 10px 36px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
+
+    .search-box span {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* ---------- PRODUCTS GRID ---------- */
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+      margin-top: 10px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 26px rgba(0,0,0,.09);
+    }
+
+    .product-image {
+      background: #f7f7f7;
+      padding: 18px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .product-info {
+      padding: 16px 18px 18px;
+    }
+
+    .product-title {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .product-price {
+      color: #ff46c7;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .product-cta {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.8rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: var(--gray);
+      cursor: pointer;
+    }
+
+    /* ---------- FOOTER (same as index/contact) ---------- */
+
+    footer {
+      border: 3px solid var(--teal);
+      border-top: none;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      border-radius: 0 0 6px 6px;
+      overflow: hidden;
+    }
+
+    .footer-inner {
+      background: #f7f7f7;
+      padding: 30px 40px 35px;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+      gap: 40px;
+      font-size: 0.85rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-brand .logo {
+      font-size: 1.2rem;
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .socials img.social-icon {
+      width: 25px;
+      height: 25px;
+      object-fit: contain;
+      transition: 0.2s ease;
+    }
+
+    .socials img.social-icon:hover {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+
+    .footer-column h4 {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      display: grid;
+      gap: 4px;
+    }
+
+    .footer-column a {
+      color: #666;
+      font-size: 0.82rem;
+    }
+
+    .footer-column a:hover {
+      color: var(--accent);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media (max-width: 900px) {
+      .top-nav {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px 18px;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .shop-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .search-box {
+        margin-left: 0;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      header {
+        margin-top: 10px;
+      }
+
+      .hero h1 {
+        font-size: 2.1rem;
+      }
+
+      .shop-main {
+        padding: 30px 14px 50px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER / NAV (matches index & contact) -->
+  <header>
+    <div class="top-nav">
+      <div class="logo">I am Stacey</div>
+
+      <nav>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Books/Films</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="../contactme.html">Contact</a></li>
+          <li><a href="host.html">Host</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#" class="btn btn-outline">Sign in</a>
+        <a href="#" class="btn btn-solid">Register</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Shop I am Stacey</h1>
+      <p class="sub">INSPIRING APPAREL &amp; MUGS TO LIFT YOUR SPIRIT</p>
+    </section>
+  </header>
+
+  <!-- MAIN SHOP CONTENT -->
+  <main class="shop-main">
+    <div class="shop-header">
+      <div>
+        <h2>Featured Products</h2>
+        <p>Browse empowering designs that celebrate faith, strength, and self-care.</p>
+      </div>
+
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" placeholder="Search products..." />
+      </div>
+    </div>
+
+    <section class="products-grid">
+
+      <!-- Stronger Mug -->
+      <article class="product-card">
+        <div class="product-image">
+          <img src="stronger-mug.jpeg" alt="Stronger Than The Storm Mug">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Stronger Than The Storm Ceramic Mug</h3>
+          <p class="product-price">$7.68</p>
+          <button class="product-cta">View details</button>
+        </div>
+      </article>
+
+      <!-- Stronger T-Shirt -->
+      <article class="product-card">
+        <div class="product-image">
+          <img src="stronger-shirt.jpeg" alt="Stronger Than The Storm T-Shirt">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Unisex T-Shirt – “Stronger Than The Storm”</h3>
+          <p class="product-price">$20.32</p>
+          <button class="product-cta">View details</button>
+        </div>
+      </article>
+
+      <!-- Royalty & Loyalty Mug -->
+      <article class="product-card">
+        <div class="product-image">
+          <img src="royalty-mug.jpeg" alt="Royalty & Loyalty Mug">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Royalty &amp; Loyalty Mug – Empowering Black Woman</h3>
+          <p class="product-price">$11.62</p>
+          <button class="product-cta">View details</button>
+        </div>
+      </article>
+
+      <!-- I'm Blessed Sweatshirt -->
+      <article class="product-card">
+        <div class="product-image">
+          <img src="blessed-sweatshirt.jpeg" alt="I'm Blessed Sweatshirt">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">“I’m Blessed” Crewneck Sweatshirt</h3>
+          <p class="product-price">$29.37</p>
+          <button class="product-cta">View details</button>
+        </div>
+      </article>
+
+      <!-- My Time is Me Time Shirt -->
+      <article class="product-card">
+        <div class="product-image">
+          <img src="me-time-shirt.jpeg" alt="My Time is Me Time Shirt">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">“My Time is Me Time” Garment-Dyed T-Shirt</h3>
+          <p class="product-price">$24.38</p>
+          <button class="product-cta">View details</button>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- FOOTER (same as index/contact) -->
+  <footer>
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <div class="logo">I am Stacey</div>
+        <p>Author • Talk Show Host • Advocate • Friend</p>
+
+        <div class="socials">
+          <a href="https://www.facebook.com/iamstaceythomas/" target="_blank" rel="noopener noreferrer">
+            <img src="facebook.png" alt="Facebook" class="social-icon">
+          </a>
+          <a href="https://www.instagram.com/iamstaceythomas/" target="_blank" rel="noopener noreferrer">
+            <img src="instagram.png" alt="Instagram" class="social-icon">
+          </a>
+          <a href="https://linktr.ee/staceyunrestricted" target="_blank" rel="noopener noreferrer">
+            <img src="linktree.png" alt="Linktree" class="social-icon">
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>About Stacey</h4>
+        <ul>
+          <li><a href="#author">Books &amp; Writing</a></li>
+          <li><a href="#advocate">Advocacy Work</a></li>
+          <li><a href="#host">Talk Show &amp; Media</a></li>
+          <li><a href="#about">Biography</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#events">Events &amp; Appearances</a></li>
+          <li><a href="#videos">Interviews &amp; Episodes</a></li>
+          <li><a href="#causes">Causes I Support</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="contactme.html">Contact Me</a></li>
+          <li><a href="#newsletter">Join the Mailing List</a></li>
+          <li><a href="#press">Press &amp; Media</a></li>
+          <li><a href="#booking">Booking Requests</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
