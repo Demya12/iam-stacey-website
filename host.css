@@ -37,7 +37,7 @@ body{
 }
 .brand-top{
   font-size: 12px;
-  color: #999;
+  color: #c13ad6;
   margin-bottom: 6px;
 }
 .brand-logo{
@@ -272,6 +272,7 @@ body{
     grid-template-columns: 1fr;
   }
 }
+
 
 
 
