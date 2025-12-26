@@ -4,7 +4,7 @@
   --muted: #6a6a6a;
 
   --purple: #c13ad6;
-  --purple-dark: #7d3fd3;
+  --purple-dark: #c13ad6;
   --teal: #2fb7b1;
 
   --card: #ffffff;
@@ -272,6 +272,7 @@ body{
     grid-template-columns: 1fr;
   }
 }
+
 
 
 
