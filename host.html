@@ -2,286 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Host | I am Stacey</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <!-- SAME CSS AS INDEX -->
-  <style>
-    :root {
-      --teal: #22c1c3;
-      --purple: #c13ad6;
-      --dark: #222;
-      --light: #ffffff;
-      --gray: #f5f5f5;
-      --accent: #ff46c7;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fdfdfd;
-      color: var(--dark);
-      line-height: 1.6;
-    }
-
-    a { text-decoration: none; color: inherit; }
-
-    /* ---------- NAV ---------- */
-    header {
-      border: 3px solid var(--teal);
-      border-bottom: none;
-      max-width: 1200px;
-      margin: 24px auto 0;
-      background: var(--light);
-      box-shadow: 0 14px 35px rgba(0,0,0,.07);
-    }
-
-    .top-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 40px;
-      font-size: 0.95rem;
-    }
-
-    .logo {
-      font-weight: 600;
-      font-size: 1.3rem;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 24px;
-    }
-
-    nav ul li a { color: #666; }
-    nav ul li a:hover { color: var(--accent); }
-
-    .nav-actions { display: flex; gap: 10px; }
-
-    .btn {
-      padding: 8px 16px;
-      border-radius: 20px;
-      border: 1px solid transparent;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-
-    .btn-outline {
-      border-color: var(--purple);
-      color: var(--purple);
-      background: transparent;
-    }
-
-    .btn-solid {
-      background: var(--purple);
-      color: #fff;
-    }
-
-    /* ---------- HERO ---------- */
-    .hero {
-      background: var(--teal);
-      text-align: center;
-      padding: 60px 30px 70px;
-    }
-
-    .hero h1 {
-      color: var(--accent);
-      font-size: 2.6rem;
-      margin-bottom: 10px;
-    }
-
-    .hero p.sub {
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    /* ---------- IMAGE BAND ---------- */
-    .image-band {
-      background: var(--purple);
-      padding: 40px;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-
-    .image-card {
-      width: 260px;
-      height: 260px;
-      overflow: hidden;
-      border-radius: 4px;
-    }
-
-    .image-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* ---------- HOST SECTION ---------- */
-    .host-section {
-      background: var(--purple);
-      padding: 10px 40px 60px;
-    }
-
-    .host-inner {
-      max-width: 950px;
-      margin: 0 auto;
-    }
-
-    .host-section h2 {
-      color: #fff;
-      font-size: 1.5rem;
-      margin-bottom: 4px;
-    }
-
-    .host-section p.section-subtitle {
-      color: #fbe5ff;
-      font-size: 0.9rem;
-      margin-bottom: 25px;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-    }
-
-    .video-card {
-      background: #fff;
-      border-radius: 6px;
-      padding: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.08);
-    }
-
-    .video-card iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border: 0;
-      border-radius: 4px;
-    }
-
-    /* ---------- FOOTER ---------- */
-    footer {
-      border: 3px solid var(--teal);
-      border-top: none;
-      max-width: 1200px;
-      margin: 0 auto 40px;
-      overflow: hidden;
-    }
-
-    .footer-inner {
-      background: #f7f7f7;
-      padding: 30px 40px;
-      display: grid;
-      grid-template-columns: 1.5fr repeat(3, 1fr);
-      gap: 40px;
-      font-size: 0.85rem;
-    }
-
-    .socials {
-      display: flex;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .socials img {
-      width: 25px;
-      transition: 0.2s ease;
-    }
-
-    .socials img:hover {
-      opacity: 0.7;
-      transform: scale(1.05);
-    }
-
-    @media (max-width: 900px) {
-      .footer-inner { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 650px) {
-      .footer-inner { grid-template-columns: 1fr; }
-    }
-  </style>
+  <title>Host | The Stacey Thomas Show</title>
+  <link rel="stylesheet" href="host.css" />
 </head>
 
 <body>
-
-<header>
-  <div class="top-nav">
-    <div class="logo">I am Stacey</div>
-
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Books/Films</a></li>
-        <li><a href="Shop/shop.html">Shop</a></li>
-        <li><a href="contactme.html">Contact</a></li>
-        <li><a href="host.html">Host</a></li>
-      </ul>
-    </nav>
-
-    <div class="nav-actions">
-      <a class="btn btn-outline">Sign in</a>
-      <a class="btn btn-solid">Register</a>
-    </div>
-  </div>
-
-  <section class="hero">
-    <h1>The Stacey Thomas Show</h1>
-    <p class="sub">Watch the latest episodes & conversations</p>
-  </section>
-
-  <section class="image-band">
-    <div class="image-card"><img src="host.jpg" alt="Host"></div>
-    <div class="image-card"><img src="purple.jpg" alt="Show"></div>
-  </section>
-
-  <!-- HOST VIDEOS -->
-  <section class="host-section">
+  <!-- MAIN PURPLE SECTION -->
+  <main class="host-section">
     <div class="host-inner">
-      <h2>Latest Episodes</h2>
-      <p class="section-subtitle">Automatically updated from YouTube</p>
+      <header class="host-header">
+        <div class="host-title-wrap">
+          <h1>Latest Episodes</h1>
+          <p>Automatically pulls from the YouTube channel.</p>
+        </div>
 
-      <div id="videoGrid" class="video-grid"></div>
+        <a
+          class="yt-button"
+          href="https://www.youtube.com/@staceythomasshow/videos"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on YouTube
+        </a>
+      </header>
+
+      <!-- Status / Error Text -->
+      <p id="statusText" class="status-text" aria-live="polite"></p>
+
+      <!-- Video Grid -->
+      <section id="videoGrid" class="video-grid" aria-label="Latest videos">
+        <!-- JS injects cards here -->
+      </section>
     </div>
-  </section>
-</header>
+  </main>
 
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="logo">I am Stacey</div>
-      <p>Author • Talk Show Host • Advocate • Friend</p>
+  <!-- FOOTER (based on your screenshot vibe) -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo-text">I am Stacey</div>
+        <div class="social">
+          <a href="#" aria-label="X / Twitter">X</a>
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
 
-      <div class="socials">
-        <a href="https://www.facebook.com/iamstaceythomas/" target="_blank">
-          <img src="facebook.png" alt="Facebook">
-        </a>
-        <a href="https://www.instagram.com/iamstaceythomas/" target="_blank">
-          <img src="instagram.png" alt="Instagram">
-        </a>
-        <a href="https://linktr.ee/staceyunrestricted" target="_blank">
-          <img src="linktree.png" alt="Linktree">
-        </a>
+      <div class="footer-cols">
+        <div class="col">
+          <h4>Use cases</h4>
+          <a href="#">UI design</a>
+          <a href="#">UX design</a>
+          <a href="#">Wireframing</a>
+          <a href="#">Team collaboration</a>
+        </div>
+
+        <div class="col">
+          <h4>Explore</h4>
+          <a href="#">Design</a>
+          <a href="#">Prototyping</a>
+          <a href="#">Design process</a>
+          <a href="#">FigJam</a>
+        </div>
+
+        <div class="col">
+          <h4>Resources</h4>
+          <a href="#">Blog</a>
+          <a href="#">Best practices</a>
+          <a href="#">Support</a>
+          <a href="#">Developers</a>
+        </div>
       </div>
     </div>
+  </footer>
 
-    <div><h4>About</h4></div>
-    <div><h4>Explore</h4></div>
-    <div><h4>Connect</h4></div>
-  </div>
-</footer>
-
-<!-- YOUR EXISTING host.js -->
-<script src="host.js"></script>
-
+  <script src="host.js"></script>
 </body>
 </html>
+
+
