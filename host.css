@@ -218,10 +218,11 @@ body{
 }
 
 /* Social icons */
-.footer-socials {
-  display: flex;
-  gap: 12px;
+.footer-socials img {
+  width: 22px;
+  height: 22px;
 }
+
 
 .footer-socials img {
   width: 28px;
@@ -271,5 +272,6 @@ body{
     grid-template-columns: 1fr;
   }
 }
+
 
 
