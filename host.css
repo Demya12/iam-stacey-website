@@ -67,6 +67,7 @@ body{
 .header-actions{
   display: flex;
   gap: 10px;
+  color: #c13ad6;
 }
 
 /* BUTTONS */
@@ -287,6 +288,7 @@ body{
   overflow: hidden; /* keeps teal/purple bands clipped inside the box */
   box-shadow: 0 14px 35px rgba(0,0,0,.07);
 }
+
 
 
 
