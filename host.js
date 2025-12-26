@@ -1,7 +1,7 @@
 // host.js
 // Pulls latest videos from a channel and embeds them in a 2-column grid.
 
-const API_KEY = "AIzaSyBb6C7ISRBz-J-4KLF_FhneN__xZ7TEL8g";
+const API_KEY = "AIzaSyCmeIa2NRdTeTxyKGaPiZuabqxFrWJhw68";
 const CHANNEL_ID = "UCxT4KEvB-D_i6iSfDXO8mzg";
 
 // Change how many videos show on the host page:
@@ -147,3 +147,4 @@ async function init() {
 }
 
 init();
+
