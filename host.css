@@ -105,7 +105,7 @@ body{
 .hero h1{
   margin: 0 0 12px;
   font-size: 42px;
-  color: #b56fff; /* similar to screenshot title color */
+  color: #c13ad6; /* similar to screenshot title color */
   letter-spacing: .3px;
 }
 .hero p{
@@ -272,6 +272,7 @@ body{
     grid-template-columns: 1fr;
   }
 }
+
 
 
 
