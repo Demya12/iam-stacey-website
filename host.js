@@ -1,23 +1,31 @@
 // host.js
-// Pulls latest videos from a channel and embeds them in a 2-column grid.
+// Loads ALL videos from a YouTube channel using the uploads playlist + pagination,
+// then renders them in your grid.
 
 const API_KEY = "AIzaSyCmeIa2NRdTeTxyKGaPiZuabqxFrWJhw68";
 const CHANNEL_ID = "UCxT4KEvB-D_i6iSfDXO8mzg";
 
-// Change how many videos show on the host page:
-const MAX_RESULTS = 6;
+// Set to a big number if you want to limit (ex: 100). Use Infinity for all.
+const TOTAL_LIMIT = Infinity;
+
+// YouTube API maxResults per request for playlistItems is 50
+const PAGE_SIZE = 50;
 
 const statusEl = document.getElementById("status");
 const gridEl = document.getElementById("videoGrid");
 
 function setStatus(msg) {
-  statusEl.textContent = msg || "";
+  if (statusEl) statusEl.textContent = msg || "";
 }
 
 function formatDate(iso) {
   if (!iso) return "";
   const d = new Date(iso);
-  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  return d.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 async function fetchJson(url) {
@@ -25,7 +33,6 @@ async function fetchJson(url) {
   const text = await res.text();
 
   if (!res.ok) {
-    // Try to show YouTube API's error message if present
     let message = `Request failed (${res.status}).`;
     try {
       const data = JSON.parse(text);
@@ -39,7 +46,6 @@ async function fetchJson(url) {
 }
 
 async function getUploadsPlaylistId() {
-  // Step 1: get the channel's "uploads" playlist
   const url =
     `https://www.googleapis.com/youtube/v3/channels` +
     `?part=contentDetails&id=${encodeURIComponent(CHANNEL_ID)}` +
@@ -47,8 +53,7 @@ async function getUploadsPlaylistId() {
 
   const data = await fetchJson(url);
 
-  const uploads =
-    data?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
+  const uploads = data?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
 
   if (!uploads) {
     throw new Error("Could not find uploads playlist for this channel.");
@@ -57,33 +62,54 @@ async function getUploadsPlaylistId() {
   return uploads;
 }
 
-async function getLatestVideosFromUploads(uploadsPlaylistId) {
-  // Step 2: list playlist items (videos) from uploads playlist
-  const url =
-    `https://www.googleapis.com/youtube/v3/playlistItems` +
-    `?part=snippet,contentDetails` +
-    `&playlistId=${encodeURIComponent(uploadsPlaylistId)}` +
-    `&maxResults=${encodeURIComponent(MAX_RESULTS)}` +
-    `&key=${encodeURIComponent(API_KEY)}`;
+async function getAllVideosFromUploads(uploadsPlaylistId) {
+  let all = [];
+  let pageToken = "";
 
-  const data = await fetchJson(url);
+  while (true) {
+    const url =
+      `https://www.googleapis.com/youtube/v3/playlistItems` +
+      `?part=snippet,contentDetails` +
+      `&playlistId=${encodeURIComponent(uploadsPlaylistId)}` +
+      `&maxResults=${PAGE_SIZE}` +
+      (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : "") +
+      `&key=${encodeURIComponent(API_KEY)}`;
 
-  const videos = (data.items || [])
-    .map(item => {
-      const videoId = item?.contentDetails?.videoId;
-      const title = item?.snippet?.title || "Untitled";
-      const publishedAt = item?.contentDetails?.videoPublishedAt || item?.snippet?.publishedAt;
+    const data = await fetchJson(url);
 
-      if (!videoId) return null;
+    const batch = (data.items || [])
+      .map((item) => {
+        const videoId = item?.contentDetails?.videoId;
+        const title = item?.snippet?.title || "Untitled";
+        const publishedAt =
+          item?.contentDetails?.videoPublishedAt || item?.snippet?.publishedAt;
 
-      return { videoId, title, publishedAt };
-    })
-    .filter(Boolean);
+        if (!videoId) return null;
+        return { videoId, title, publishedAt };
+      })
+      .filter(Boolean);
 
-  return videos;
+    all = all.concat(batch);
+
+    // Update status as it loads
+    setStatus(`Loaded ${all.length} videos...`);
+
+    // Respect TOTAL_LIMIT if you set one
+    if (Number.isFinite(TOTAL_LIMIT) && all.length >= TOTAL_LIMIT) {
+      return all.slice(0, TOTAL_LIMIT);
+    }
+
+    // If no nextPageToken, we’re done
+    pageToken = data?.nextPageToken;
+    if (!pageToken) break;
+  }
+
+  return all;
 }
 
 function renderVideos(videos) {
+  if (!gridEl) return;
+
   gridEl.innerHTML = "";
 
   if (!videos.length) {
@@ -91,7 +117,12 @@ function renderVideos(videos) {
     return;
   }
 
-  const cards = videos.map(v => {
+  // Optional: newest first (uploads playlist is usually already newest first)
+  // videos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+  const fragment = document.createDocumentFragment();
+
+  videos.forEach((v) => {
     const card = document.createElement("article");
     card.className = "video-card";
 
@@ -121,30 +152,30 @@ function renderVideos(videos) {
     card.appendChild(iframe);
     card.appendChild(meta);
 
-    return card;
+    fragment.appendChild(card);
   });
 
-  cards.forEach(c => gridEl.appendChild(c));
+  gridEl.appendChild(fragment);
   setStatus("");
 }
 
 async function init() {
   try {
     setStatus("Loading videos...");
+
     const uploadsPlaylistId = await getUploadsPlaylistId();
-    const videos = await getLatestVideosFromUploads(uploadsPlaylistId);
+    const videos = await getAllVideosFromUploads(uploadsPlaylistId);
+
     renderVideos(videos);
   } catch (err) {
     console.error(err);
-
     setStatus(
-      "Could not load videos. Check your API key restrictions + YouTube Data API is enabled."
+      "Could not load videos. Check: YouTube Data API enabled + API key restrictions + referrer URL."
     );
-
-    // Helpful debug message (optional):
-    // setStatus(err.message);
   }
 }
 
 init();
+
+
 
