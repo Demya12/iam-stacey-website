@@ -10,133 +10,157 @@
 
 <body>
   <div class="page-shell">
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-top">The Stacey Thomas Show</div>
-        <div class="brand-logo">I am Stacey</div>
-      </div>
 
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="books.html">Books/Films</a>
-        <a href="shop.html">Shop</a>
-        <a href="contactme.html">Contact</a>
-        <a class="active" href="host.html">Host</a>
-      </nav>
-
-      <div class="header-actions">
-        <a class="btn btn-outline" href="signin.html">Sign In</a>
-        <a class="btn btn-solid" href="register.html">Register</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <h1>The Stacey Thomas Show</h1>
-      <p>
-        Welcome to the official page for The Stacey Thomas Show, a platform that
-        amplifies voices in advocacy, empowerment, and community change, where
-        you can watch full talk show episodes and exclusive interviews on YouTube.
-      </p>
-    </div>
-  </section>
-
-  <!-- VIDEOS -->
-  <section class="videos">
-    <div class="videos-inner">
-      <div class="videos-header">
-        <div>
-          <h2>Latest Episodes</h2>
-          <p>Automatically pulls from the YouTube channel.</p>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <div class="brand-top">The Stacey Thomas Show</div>
+          <div class="brand-logo">I am Stacey</div>
         </div>
 
-        <a class="btn btn-outline" target="_blank"
-           href="https://www.youtube.com/@staceythomasshow/videos" rel="noreferrer">
-          View on YouTube
-        </a>
+        <nav class="nav">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="books.html">Books/Films</a>
+          <a href="Shop/shop.html">Shop</a>
+          <a href="contactme.html">Contact</a>
+          <a class="active" href="host.html">Host</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="btn btn-outline" href="signin.html">Sign In</a>
+          <a class="btn btn-solid" href="register.html">Register</a>
+        </div>
       </div>
+    </header>
 
-      <div id="status" class="status" aria-live="polite"></div>
-
-      <div id="videoGrid" class="video-grid">
-        <!-- JS inserts video cards here -->
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>The Stacey Thomas Show</h1>
+        <p>
+          Welcome to the official page for The Stacey Thomas Show, a platform that
+          amplifies voices in advocacy, empowerment, and community change, where
+          you can watch full talk show episodes and exclusive interviews on YouTube.
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FOOTER (simple version matching your layout) -->
-<footer class="site-footer">
-  <div class="footer-inner">
+    <!-- HOST CONTENT -->
+    <section class="videos">
+      <div class="videos-inner">
 
-    <!-- BRAND COLUMN -->
-    <div class="footer-brand">
-      <h3 class="footer-logo">I am Stacey</h3>
-      <p class="footer-tagline">
-        Author • Talk Show Host • Advocate • Friend
-      </p>
+        <!-- Top header row (title + view on youtube button) -->
+        <div class="videos-header">
+          <div>
+            <h2>Host</h2>
+            <p>Select a category: Videos, Shorts, Live, or Podcasts.</p>
+          </div>
 
-      <div class="footer-socials">
-        <a href="https://www.facebook.com/iamstaceythomas/" target="_blank">
-          <img src="facebook.png" alt="Facebook">
-        </a>
+          <a class="btn btn-outline" target="_blank"
+             href="https://www.youtube.com/@staceythomasshow/videos" rel="noreferrer">
+            View on YouTube
+          </a>
+        </div>
 
-        <a href="https://www.instagram.com/iamstaceythomas/" target="_blank">
-          <img src="instagram.png" alt="Instagram">
-        </a>
+        <!-- NEW: Tabs -->
+        <div class="host-tabs" role="tablist" aria-label="Host categories">
+          <button class="tab-btn active" data-tab="videos" role="tab" aria-selected="true">
+            Videos
+          </button>
+          <button class="tab-btn" data-tab="shorts" role="tab" aria-selected="false">
+            Shorts
+          </button>
+          <button class="tab-btn" data-tab="live" role="tab" aria-selected="false">
+            Live
+          </button>
+          <button class="tab-btn" data-tab="podcasts" role="tab" aria-selected="false">
+            Podcasts
+          </button>
+        </div>
 
-        <a href="https://linktr.ee/staceyunrestricted" target="_blank">
-          <img src="linktree.png" alt="Linktree">
-        </a>
+        <!-- Status -->
+        <div id="status" class="status" aria-live="polite"></div>
+
+        <!-- Grid -->
+        <div id="videoGrid" class="video-grid">
+          <!-- JS inserts video cards here -->
+        </div>
+
       </div>
-    </div>
+    </section>
 
-    <!-- ABOUT -->
-    <div class="footer-column">
-      <h4>About Stacey</h4>
-      <ul>
-        <li><a href="#">Books & Writing</a></li>
-        <li><a href="#">Advocacy Work</a></li>
-        <li><a href="#">Talk Show & Media</a></li>
-        <li><a href="#">Biography</a></li>
-      </ul>
-    </div>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-inner">
 
-    <!-- EXPLORE -->
-    <div class="footer-column">
-      <h4>Explore</h4>
-      <ul>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Events & Appearances</a></li>
-        <li><a href="#">Interviews & Episodes</a></li>
-        <li><a href="#">Causes I Support</a></li>
-      </ul>
-    </div>
+        <!-- BRAND COLUMN -->
+        <div class="footer-brand">
+          <h3 class="footer-logo">I am Stacey</h3>
+          <p class="footer-tagline">
+            Author • Talk Show Host • Advocate • Friend
+          </p>
 
-    <!-- CONNECT -->
-    <div class="footer-column">
-      <h4>Connect</h4>
-      <ul>
-        <li><a href="contactme.html">Contact Me</a></li>
-        <li><a href="#">Join the Mailing List</a></li>
-        <li><a href="#">Press & Media</a></li>
-        <li><a href="#">Booking Requests</a></li>
-      </ul>
-    </div>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/iamstaceythomas/" target="_blank" rel="noopener noreferrer">
+              <img src="facebook.png" alt="Facebook">
+            </a>
 
-  </div>
-</footer>
+            <a href="https://www.instagram.com/iamstaceythomas/" target="_blank" rel="noopener noreferrer">
+              <img src="instagram.png" alt="Instagram">
+            </a>
 
+            <a href="https://linktr.ee/staceyunrestricted" target="_blank" rel="noopener noreferrer">
+              <img src="linktree.png" alt="Linktree">
+            </a>
+          </div>
+        </div>
 
+        <!-- ABOUT -->
+        <div class="footer-column">
+          <h4>About Stacey</h4>
+          <ul>
+            <li><a href="#">Books & Writing</a></li>
+            <li><a href="#">Advocacy Work</a></li>
+            <li><a href="#">Talk Show & Media</a></li>
+            <li><a href="#">Biography</a></li>
+          </ul>
+        </div>
 
-  <script src="host.js" defer></script>
+        <!-- EXPLORE -->
+        <div class="footer-column">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Events & Appearances</a></li>
+            <li><a href="#">Interviews & Episodes</a></li>
+            <li><a href="#">Causes I Support</a></li>
+          </ul>
+        </div>
+
+        <!-- CONNECT -->
+        <div class="footer-column">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="contactme.html">Contact Me</a></li>
+            <li><a href="#">Join the Mailing List</a></li>
+            <li><a href="#">Press & Media</a></li>
+            <li><a href="#">Booking Requests</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="host.js" defer></script>
+
   </div>
 </body>
 </html>
+
+
 
 
 
