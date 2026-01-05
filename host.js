@@ -1,34 +1,27 @@
 // host.js
-// Supports tabs: Videos | Shorts | Live | Podcasts
+// Tabs: Videos | Shorts | Live | Podcasts
+// Loads ALL items (no fixed limit) using pagination.
 //
-// Requirements in host.html:
-// - Buttons with class ".tab-btn" and data-tab="videos|shorts|live|podcasts"
-// - A status element with id="status"
-// - A grid element with id="videoGrid"
-//
-// Notes:
-// - Videos: latest uploads
-// - Shorts: best = Shorts playlist ID; fallback = uploads filtered by duration <= 60s
-// - Live: shows live now; if none, shows completed live streams
-// - Podcasts: pulls from the Podcasts playlist you provided
+// Shorts:
+// - Always includes a specific Shorts videoId you provided.
+// - If you create a Shorts playlist, set PLAYLISTS.shorts (recommended).
+// - Otherwise it falls back to filtering uploads by duration <= 60s (can be quota-heavy).
 
 const API_KEY = "AIzaSyCmeIa2NRdTeTxyKGaPiZuabqxFrWJhw68";
 const CHANNEL_ID = "UCxT4KEvB-D_i6iSfDXO8mzg";
 
-// How many items to show per tab
-const MAX_RESULTS = 12;
-
-// If no Shorts playlist ID is set, scan this many recent uploads to find Shorts (<= 60s)
-// (max 50 per YouTube API request)
-const SHORTS_FALLBACK_SCAN_LIMIT = 30;
-
-// Playlist IDs
+// Playlists
 const PLAYLISTS = {
-  // Shorts playlist is optional. Leave "" to use the duration<=60s fallback.
-  shorts: "",
-  // Podcasts playlist ID (from your link)
+  shorts: "", // optional: put a Shorts playlist ID here if you create one
   podcasts: "PLjFW00s_rQIp9gNuX74hlYvP37yy2b3tq",
 };
+
+// This Short must ALWAYS show under Shorts tab
+const PINNED_SHORT_VIDEO_ID = "0zbMy6u50cQ";
+
+// YouTube API page size limits
+const PLAYLIST_PAGE_SIZE = 50; // max 50
+const SEARCH_PAGE_SIZE = 50;   // max 50
 
 const statusEl = document.getElementById("status");
 const gridEl = document.getElementById("videoGrid");
@@ -40,11 +33,11 @@ function setStatus(msg) {
 function formatDate(iso) {
   if (!iso) return "";
   const d = new Date(iso);
-  return d.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+function hasRealPlaylistId(value) {
+  return Boolean(value && value.length > 10 && !value.includes("PUT_"));
 }
 
 async function fetchJson(url) {
@@ -64,11 +57,7 @@ async function fetchJson(url) {
   return JSON.parse(text);
 }
 
-function hasRealPlaylistId(value) {
-  return Boolean(value && value.length > 10 && !value.includes("PUT_"));
-}
-
-// Convert ISO 8601 duration "PT1M2S" -> seconds
+// ISO 8601 duration (PT#H#M#S) -> seconds
 function isoDurationToSeconds(iso) {
   if (!iso) return 0;
   const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
@@ -80,7 +69,7 @@ function isoDurationToSeconds(iso) {
 }
 
 /* -----------------------------
-   YouTube: uploads + playlists
+   YouTube API: uploads + playlists
 -------------------------------- */
 
 async function getUploadsPlaylistId() {
@@ -90,39 +79,51 @@ async function getUploadsPlaylistId() {
     `&key=${encodeURIComponent(API_KEY)}`;
 
   const data = await fetchJson(url);
-
   const uploads = data?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
   if (!uploads) throw new Error("Could not find uploads playlist for this channel.");
   return uploads;
 }
 
-async function getVideosFromPlaylist(playlistId, maxResults = MAX_RESULTS) {
-  const url =
-    `https://www.googleapis.com/youtube/v3/playlistItems` +
-    `?part=snippet,contentDetails` +
-    `&playlistId=${encodeURIComponent(playlistId)}` +
-    `&maxResults=${encodeURIComponent(maxResults)}` +
-    `&key=${encodeURIComponent(API_KEY)}`;
+async function getAllVideosFromPlaylist(playlistId) {
+  let all = [];
+  let pageToken = "";
 
-  const data = await fetchJson(url);
+  while (true) {
+    const url =
+      `https://www.googleapis.com/youtube/v3/playlistItems` +
+      `?part=snippet,contentDetails` +
+      `&playlistId=${encodeURIComponent(playlistId)}` +
+      `&maxResults=${PLAYLIST_PAGE_SIZE}` +
+      (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : "") +
+      `&key=${encodeURIComponent(API_KEY)}`;
 
-  return (data.items || [])
-    .map((item) => {
-      const videoId = item?.contentDetails?.videoId;
-      const title = item?.snippet?.title || "Untitled";
-      const publishedAt =
-        item?.contentDetails?.videoPublishedAt || item?.snippet?.publishedAt;
+    const data = await fetchJson(url);
 
-      if (!videoId) return null;
-      return { videoId, title, publishedAt };
-    })
-    .filter(Boolean);
+    const batch = (data.items || [])
+      .map((item) => {
+        const videoId = item?.contentDetails?.videoId;
+        const title = item?.snippet?.title || "Untitled";
+        const publishedAt =
+          item?.contentDetails?.videoPublishedAt || item?.snippet?.publishedAt;
+        if (!videoId) return null;
+        return { videoId, title, publishedAt };
+      })
+      .filter(Boolean);
+
+    all = all.concat(batch);
+
+    setStatus(`Loaded ${all.length}...`);
+
+    pageToken = data?.nextPageToken;
+    if (!pageToken) break;
+  }
+
+  return all;
 }
 
-// Get durations for a list of video IDs (videos.list supports up to 50 IDs)
-async function getVideoDetails(videoIds) {
+// videos.list for duration/snippet (up to 50 IDs per request)
+async function getVideoDetailsBatch(videoIds) {
   if (!videoIds.length) return [];
-
   const url =
     `https://www.googleapis.com/youtube/v3/videos` +
     `?part=contentDetails,snippet` +
@@ -140,32 +141,46 @@ async function getVideoDetails(videoIds) {
 }
 
 /* -----------------------------
-   YouTube: Live (search)
+   YouTube API: live (search)
 -------------------------------- */
 
 // eventType: "live" | "upcoming" | "completed"
-async function getLiveVideos(eventType = "live") {
-  const url =
-    `https://www.googleapis.com/youtube/v3/search` +
-    `?part=snippet` +
-    `&channelId=${encodeURIComponent(CHANNEL_ID)}` +
-    `&eventType=${encodeURIComponent(eventType)}` +
-    `&type=video` +
-    `&order=date` +
-    `&maxResults=${encodeURIComponent(MAX_RESULTS)}` +
-    `&key=${encodeURIComponent(API_KEY)}`;
+async function getAllLiveVideos(eventType = "live") {
+  let all = [];
+  let pageToken = "";
 
-  const data = await fetchJson(url);
+  while (true) {
+    const url =
+      `https://www.googleapis.com/youtube/v3/search` +
+      `?part=snippet` +
+      `&channelId=${encodeURIComponent(CHANNEL_ID)}` +
+      `&eventType=${encodeURIComponent(eventType)}` +
+      `&type=video` +
+      `&order=date` +
+      `&maxResults=${SEARCH_PAGE_SIZE}` +
+      (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : "") +
+      `&key=${encodeURIComponent(API_KEY)}`;
 
-  return (data.items || [])
-    .map((item) => {
-      const videoId = item?.id?.videoId;
-      const title = item?.snippet?.title || "Untitled";
-      const publishedAt = item?.snippet?.publishedAt;
-      if (!videoId) return null;
-      return { videoId, title, publishedAt };
-    })
-    .filter(Boolean);
+    const data = await fetchJson(url);
+
+    const batch = (data.items || [])
+      .map((item) => {
+        const videoId = item?.id?.videoId;
+        const title = item?.snippet?.title || "Untitled";
+        const publishedAt = item?.snippet?.publishedAt;
+        if (!videoId) return null;
+        return { videoId, title, publishedAt };
+      })
+      .filter(Boolean);
+
+    all = all.concat(batch);
+    setStatus(`Loaded ${all.length}...`);
+
+    pageToken = data?.nextPageToken;
+    if (!pageToken) break;
+  }
+
+  return all;
 }
 
 /* -----------------------------
@@ -173,8 +188,6 @@ async function getLiveVideos(eventType = "live") {
 -------------------------------- */
 
 function renderVideos(videos) {
-  if (!gridEl) return;
-
   gridEl.innerHTML = "";
 
   if (!videos.length) {
@@ -222,52 +235,31 @@ function renderVideos(videos) {
 }
 
 /* -----------------------------
-   Load each tab
+   Tab loaders
 -------------------------------- */
 
 async function loadVideosTab() {
   setStatus("Loading videos...");
   const uploads = await getUploadsPlaylistId();
-  const videos = await getVideosFromPlaylist(uploads, MAX_RESULTS);
+  const videos = await getAllVideosFromPlaylist(uploads);
   renderVideos(videos);
 }
 
-async function loadShortsTab() {
-  // Preferred: Shorts playlist (if you create one and paste ID)
-  if (hasRealPlaylistId(PLAYLISTS.shorts)) {
-    setStatus("Loading shorts...");
-    const shorts = await getVideosFromPlaylist(PLAYLISTS.shorts, MAX_RESULTS);
-    renderVideos(shorts);
+async function loadPodcastsTab() {
+  if (!hasRealPlaylistId(PLAYLISTS.podcasts)) {
+    setStatus("Podcasts playlist not set.");
+    gridEl.innerHTML = "";
     return;
   }
 
-  // Fallback: filter recent uploads by duration <= 60 seconds
-  setStatus("Loading shorts...");
-  const uploads = await getUploadsPlaylistId();
-
-  const scanCount = Math.min(50, SHORTS_FALLBACK_SCAN_LIMIT);
-  const recentUploads = await getVideosFromPlaylist(uploads, scanCount);
-  const ids = recentUploads.map((v) => v.videoId);
-
-  const details = await getVideoDetails(ids);
-
-  const shorts = details
-    .map((v) => ({
-      videoId: v.videoId,
-      title: v.title,
-      publishedAt: v.publishedAt,
-      seconds: isoDurationToSeconds(v.duration),
-    }))
-    .filter((v) => v.seconds > 0 && v.seconds <= 60)
-    .slice(0, MAX_RESULTS)
-    .map(({ videoId, title, publishedAt }) => ({ videoId, title, publishedAt }));
-
-  renderVideos(shorts);
+  setStatus("Loading podcasts...");
+  const pods = await getAllVideosFromPlaylist(PLAYLISTS.podcasts);
+  renderVideos(pods);
 }
 
 async function loadLiveTab() {
   setStatus("Loading live...");
-  const liveNow = await getLiveVideos("live");
+  const liveNow = await getAllLiveVideos("live");
 
   if (liveNow.length) {
     renderVideos(liveNow);
@@ -275,78 +267,60 @@ async function loadLiveTab() {
   }
 
   setStatus("No live right now — loading past live streams...");
-  const completed = await getLiveVideos("completed");
+  const completed = await getAllLiveVideos("completed");
   renderVideos(completed);
 }
 
-async function loadPodcastsTab() {
-  if (!hasRealPlaylistId(PLAYLISTS.podcasts)) {
-    setStatus("Podcasts playlist not set yet.");
-    gridEl.innerHTML = "";
+async function loadShortsTab() {
+  // Preferred: Shorts playlist (if you create one)
+  if (hasRealPlaylistId(PLAYLISTS.shorts)) {
+    setStatus("Loading shorts...");
+    const shorts = await getAllVideosFromPlaylist(PLAYLISTS.shorts);
+
+    // Ensure pinned short is included
+    const hasPinned = shorts.some(v => v.videoId === PINNED_SHORT_VIDEO_ID);
+    if (!hasPinned) {
+      shorts.unshift({
+        videoId: PINNED_SHORT_VIDEO_ID,
+        title: "Short",
+        publishedAt: "",
+      });
+    }
+
+    renderVideos(shorts);
     return;
   }
 
-  setStatus("Loading podcasts...");
-  const pods = await getVideosFromPlaylist(PLAYLISTS.podcasts, MAX_RESULTS);
-  renderVideos(pods);
-}
+  // Fallback: filter uploads by duration <= 60s (can be quota-heavy if lots of uploads)
+  setStatus("Loading shorts (this may take a moment)...");
+  const uploads = await getUploadsPlaylistId();
+  const uploadsAll = await getAllVideosFromPlaylist(uploads);
 
-/* -----------------------------
-   Tab wiring
--------------------------------- */
+  // Batch details calls (50 IDs per request)
+  const shorts = [];
+  for (let i = 0; i < uploadsAll.length; i += 50) {
+    const chunk = uploadsAll.slice(i, i + 50);
+    const ids = chunk.map(v => v.videoId);
 
-// Prevent old requests from overwriting if user clicks fast
-let loadToken = 0;
+    setStatus(`Checking shorts... (${Math.min(i + 50, uploadsAll.length)}/${uploadsAll.length})`);
 
-async function loadTab(tabName) {
-  const myToken = ++loadToken;
+    const details = await getVideoDetailsBatch(ids);
 
-  try {
-    if (!gridEl) return;
-    gridEl.innerHTML = "";
-
-    if (tabName === "videos") await loadVideosTab();
-    else if (tabName === "shorts") await loadShortsTab();
-    else if (tabName === "live") await loadLiveTab();
-    else if (tabName === "podcasts") await loadPodcastsTab();
-    else setStatus("Unknown tab.");
-
-    if (myToken !== loadToken) return;
-  } catch (err) {
-    console.error(err);
-    if (myToken !== loadToken) return;
-
-    setStatus(
-      "Could not load. Check: YouTube Data API enabled + API key restrictions + allowed referrers."
-    );
-  }
-}
-
-function initTabs() {
-  const buttons = document.querySelectorAll(".tab-btn");
-
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      // active state + aria
-      buttons.forEach((b) => {
-        b.classList.remove("active");
-        b.setAttribute("aria-selected", "false");
-      });
-
-      btn.classList.add("active");
-      btn.setAttribute("aria-selected", "true");
-
-      loadTab(btn.dataset.tab);
+    details.forEach(d => {
+      const seconds = isoDurationToSeconds(d.duration);
+      if (seconds > 0 && seconds <= 60) {
+        shorts.push({
+          videoId: d.videoId,
+          title: d.title,
+          publishedAt: d.publishedAt,
+        });
+      }
     });
-  });
-}
+  }
 
-function init() {
-  initTabs();
-  loadTab("videos"); // default tab
-}
+  // Ensure pinned short is included
+  const hasPinned = shorts.some(v => v.videoId === PINNED_SHORT_VIDEO
 
-init();
 
 
 
