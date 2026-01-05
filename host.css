@@ -151,6 +151,41 @@ body{
   min-height: 18px;
 }
 
+/* ---------- HOST TABS ---------- */
+.host-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 0 18px;
+}
+
+.tab-btn {
+  border: 1px solid rgba(255,255,255,.65);
+  background: transparent;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .05s ease, opacity .2s ease, background .2s ease, color .2s ease;
+}
+
+.tab-btn:hover {
+  opacity: 0.92;
+}
+
+.tab-btn:active {
+  transform: translateY(1px);
+}
+
+.tab-btn.active {
+  background: #fff;
+  color: var(--purple-dark);
+  border-color: #fff;
+}
+
+
 /* grid like your 2-column layout */
 .video-grid{
   display: grid;
@@ -275,6 +310,22 @@ body{
   }
 }
 
+@media (max-width: 650px) {
+  .host-tabs {
+    gap: 8px;
+  }
+
+  .tab-btn {
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 /* Makes the host page look boxed like index.html */
 .page-shell {
   max-width: 1200px;
@@ -287,6 +338,7 @@ body{
   overflow: hidden; /* keeps teal/purple bands clipped inside the box */
   box-shadow: 0 14px 35px rgba(0,0,0,.07);
 }
+
 
 
 
