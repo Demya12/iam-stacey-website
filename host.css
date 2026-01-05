@@ -121,7 +121,7 @@ body{
 /* VIDEOS */
 .videos{
   background: var(--purple);
-  padding: 34px 16px 70px;
+  padding: 34px 16px 24px;
 }
 .videos-inner{
   max-width: var(--max);
@@ -228,13 +228,13 @@ body{
 .site-footer {
   border-top: 3px solid #22c1c3;
   background: #ffffff;
-  margin-top: 60px;
+  margin-top: 0;
 }
 
 .footer-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 40px 50px;
+  padding: 32px 40px 32px;
   display: grid;
   grid-template-columns: 1.6fr repeat(3, 1fr);
   gap: 40px;
@@ -329,7 +329,7 @@ body{
 /* Makes the host page look boxed like index.html */
 .page-shell {
   max-width: 1200px;
-  margin: 24px auto 40px;
+  margin: 24px auto 0;
   background: #fff;
 
   border: 3px solid #22c1c3; /* teal */
@@ -338,6 +338,7 @@ body{
   overflow: hidden; /* keeps teal/purple bands clipped inside the box */
   box-shadow: 0 14px 35px rgba(0,0,0,.07);
 }
+
 
 
 
